@@ -14,6 +14,10 @@ export class User {
     }
     
     /* Getters */
+    get data(){
+        return this.props;
+    }
+    
     get fullName(){
         return this.props.fullName;
     }
