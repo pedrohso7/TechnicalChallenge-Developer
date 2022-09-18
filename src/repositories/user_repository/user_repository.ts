@@ -2,15 +2,17 @@ import { User } from "../../app/entities/user";
 import { UserDatabaseModel } from "../../database/schemas/user_database_model";
 import { UserRepositoryInterface } from "./user_repository_interface";
 import { ApiLinkAxios } from "../api_link_axios";
-import { Response } from "express";
-
 export class UserRepository implements UserRepositoryInterface {
+    protected userDatabaseModel: UserDatabaseModel
+
+    constructor(){
+        this.userDatabaseModel = new UserDatabaseModel();
+    }
+
     async create(user: User): Promise<User | null> {
         try{
-            const userDB = new UserDatabaseModel();
-            return userDB.databaseModel().create(user);
+            return this.userDatabaseModel.databaseModel.create(user.data);
         } catch (error){
-            console.log(error);
             throw error;
         }    
     }
@@ -25,7 +27,6 @@ export class UserRepository implements UserRepositoryInterface {
             });
             return response;
         } catch (error){
-            console.log(error);
             throw error;
         }    
     }

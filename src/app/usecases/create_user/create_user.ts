@@ -12,15 +12,15 @@ interface  CreateUserParams {
 type CreateUserResponse = User | null
 
 export class CreateUser{
-    private userRepository: UserRepositoryInterface
+    private userRepository
 
     constructor(repository: UserRepositoryInterface){
         this.userRepository = repository;
     }
 
     async execute(request: CreateUserParams): Promise<CreateUserResponse>{
-        const user = new User(request);
-        
+        const user = request as User;
+
         const response =  await this.userRepository.create(user);
 
         return response;

@@ -1,4 +1,4 @@
-export interface AppointmentProps {
+export interface UserProps {
     fullName: String
     email: String
     address: String
@@ -7,9 +7,9 @@ export interface AppointmentProps {
 }
 
 export class User {
-    private props: AppointmentProps
+    private props: UserProps
 
-    constructor(props: AppointmentProps){
+    constructor(props: UserProps){
         this.props = props;
     }
     
