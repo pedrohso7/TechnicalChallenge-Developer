@@ -1,4 +1,5 @@
 export interface UserProps {
+    externalId: String,
     fullName: String
     email: String
     address: String
@@ -18,6 +19,10 @@ export class User {
         return this.props;
     }
     
+    get externalId(){
+        return this.props.externalId;
+    }
+
     get fullName(){
         return this.props.fullName;
     }
@@ -39,6 +44,10 @@ export class User {
     }
 
     /* Setters */
+    set externalId(id: String){
+        this.props.externalId = id;
+    }
+
     set fullName(name: String){
         this.props.fullName = name;
     }
