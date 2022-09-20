@@ -1,9 +1,11 @@
 import express from 'express';
-import { ConvertUsers } from './app/usecases/convert_users/convert_users';
+import cron from 'node-cron';
 import { UserRepository } from './repositories/user_repository/user_repository';
 import { User } from './app/entities/user';
-import dotenv from 'dotenv'
 import { CreateUser } from './app/usecases/create_user/create_user';
+import { AddressRepository } from './repositories/address_repository/address_repository.ts';
+import dotenv from 'dotenv'
+import { XmlParserHelper } from './utils/xml_parser_helper';
 dotenv.config();
 
 const app = express();
@@ -14,26 +16,50 @@ async function main (){
     try{
         const userRepository = new UserRepository();
 
-        const usersData = await userRepository.getUsersFromExternalApi();
+        const addressRepository = new AddressRepository();
 
-        const xmlString = usersData.data.toString();
+        const xmlParserHelper = new XmlParserHelper();
 
-        const convertUsers = new ConvertUsers();
+        const usersDataResponse = await userRepository.getUsersLinkApi();
 
-        const users = convertUsers.execute({ usersData: xmlString });
+        let xmlString = usersDataResponse.data.toString();
+
+        const users = xmlParserHelper.convertToUsers(xmlString);
 
         const createUser = new CreateUser(userRepository);
 
-        users!.forEach(async (user: User) => {
-            await createUser.execute(user);
-        });
-    }catch(error){
-        throw error;
-    }
+        await Promise.all(
+            users!.map(async (user: User, index: number) => {
+                try{
+                    const userContactResponse = await userRepository.getUserContactByIdLinkApi(user.externalId);
     
+                    const addressResponse = await addressRepository.getAdressByUserIdLinkApi(user.externalId);
+
+                    let xmlString = addressResponse.data.toString();
+
+                    const address = xmlParserHelper.convertToAddress(xmlString);
+
+                    xmlString = userContactResponse.data.toString();
+
+                    const contact = xmlParserHelper.convertToObject(xmlString);
+                    
+                    user.phoneNumber = contact.phoneNumber;
+
+                    user.address = address.street;
+
+                    user.addressNumber = address.number;
+
+                    await createUser.execute(user);
+                } catch (error){
+                    throw error;
+                }
+            }),
+        );
+    }catch(error){
+        console.log(error);
+    }  
 };
 
-main();
+cron.schedule('*/1 * * * *', async () => {await main(); console.log('rodou')});
 
 export default app;
-
