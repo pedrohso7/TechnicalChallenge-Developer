@@ -17,7 +17,7 @@ export class UserRepository implements UserRepositoryInterface {
         }    
     }
 
-    async getUsersFromExternalApi(limit?: Number, page?: Number): Promise<any>{
+    async getUsersLinkApi(limit?: Number, page?: Number): Promise<any>{
         try{
             const api = new ApiLinkAxios();
 
@@ -25,6 +25,18 @@ export class UserRepository implements UserRepositoryInterface {
                 limit: limit != undefined ? limit : undefined,
                 page: page != undefined ? page : undefined,
             });
+            return response;
+        } catch (error){
+            throw error;
+        }    
+    }
+
+    async getUserContactByIdLinkApi(userId: String): Promise<any>{
+        try{
+            const api = new ApiLinkAxios();
+
+            let response = await api.axios.get(`users/${userId}/contacts`);
+
             return response;
         } catch (error){
             throw error;
