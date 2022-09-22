@@ -13,12 +13,14 @@ Dev:
 
 Prod:
 -> npm run build
+
 e depois
+
 -> npm run start
 
 Para que tudo funcione corretamente você deve criar o seu .env na pasta raiz  seguindo o exemplo no repositório. 
 
 Lembre-se de que a database_url pode ser encontrado no seu console mongodb, basta seguir o padrão que está lá.
 
-Além disso, as demais informações são a respeito da comunicação com a Api de teste da link, onde foi necessário uma autênticação do tipo basic no formato "<user>:<password>" no header para utilizado ao comunicar com essa API. 
+Além disso, as demais informações são a respeito da comunicação com a Api de teste da link, onde foi necessário uma autênticação do tipo basic no formato "user:password" no header para utilizado ao comunicar com essa API. 
 
