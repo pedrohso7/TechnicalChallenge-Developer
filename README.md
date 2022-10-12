@@ -1,5 +1,6 @@
-![link_api](https://user-images.githubusercontent.com/32853995/195433204-3ad6f688-1048-4f1e-8f9e-397accfdb69d.png)
-
+<p align="center">
+          <img alt="clean architeture diagram" title="CAD" src="https://user-images.githubusercontent.com/32853995/195433204-3ad6f688-1048-4f1e-8f9e-397accfdb69d.png" width="420"/>
+</p>
 
 <div align="center">
           
@@ -22,7 +23,7 @@ This project was part of an admission test that i made and is suppose to be an a
 </p>
 
 ## ✦ Technologies
-Esse projeto foi desenvolvido com as seguintes tecnologias:
+This server was made using the tecnologies below:
 - [NodeJs](https://nodejs.org/en/)
 - [Typescript](https://www.typescriptlang.org/) 
 - [Javascript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
